@@ -12,6 +12,8 @@ import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../contexts/constants";
+
 
 const HomeAdmin = () => {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const HomeAdmin = () => {
     const fetchTopicStatistics = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/adminStatistics/topic-statistics",
+          `${apiUrl}/adminStatistics/topic-statistics`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -344,9 +346,8 @@ const HomeAdmin = () => {
         {stats.map((stat, index) => (
           <div key={index} className="col-12 col-md-6 col-lg-3">
             <div
-              className={`card border-${stat.color} stat-card h-100 ${
-                stat.path ? "cursor-pointer hover-shadow" : ""
-              }`}
+              className={`card border-${stat.color} stat-card h-100 ${stat.path ? "cursor-pointer hover-shadow" : ""
+                }`}
               onClick={() => stat.path && navigate(stat.path)}
               style={{
                 cursor: stat.path ? "pointer" : "default",

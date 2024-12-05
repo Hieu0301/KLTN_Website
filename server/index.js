@@ -45,7 +45,11 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000", // Cho phép trong quá trình phát triển
+      "https://iuh-website-dkkl.onrender.com", // Cho phép khi deploy
+      "*", // Thêm dòng này để cho phép tất cả các origin
+    ],
     credentials: true,
   })
 );

@@ -6,8 +6,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix ../client && npm run build --prefix ../client"
-},
-  "author": "",
+  },
+  "author": "NguyenLeChiDai-PhamMinhHieu",
   "license": "ISC",
   "description": "",
   "dependencies": {

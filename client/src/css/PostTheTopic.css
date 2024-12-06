@@ -1,5 +1,5 @@
 .post-the-topic {
-  width: 75%; /* Chiếm 75% chiều rộng của container */
+  width: 90%; /* Chiếm 75% chiều rộng của container */
   margin-left: 60px; /* Cách lề trái 20px */
   font-family: bold; /* Sử dụng font Arial, nếu không có thì dùng sans-serif */
 }

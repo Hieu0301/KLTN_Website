@@ -11,7 +11,7 @@ import avatar from "../../assets/avatar.png";
 import NotificationDetailModal from "../Notification/NotificationDetailModal";
 import MessageNotificationBell from "../Notification/MessageNotificationBell";
 import io from "socket.io-client";
-
+import { apiUrl } from "../../contexts/constants";
 const UserMenu = () => {
   const navigate = useNavigate();
   const { authState, logoutUser } = useContext(AuthContext);
@@ -26,7 +26,7 @@ const UserMenu = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5000", {
+    const newSocket = io(`${apiUrl}`, {
       withCredentials: true,
       auth: {
         token: localStorage.getItem("token"),
@@ -87,7 +87,7 @@ const UserMenu = () => {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/notification",
+        `${apiUrl}/notification`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -132,7 +132,7 @@ const UserMenu = () => {
   const handleReadNotification = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/notification/${id}/read`,
+        `${apiUrl}/notification/${id}/read`,
         {},
         {
           headers: {
@@ -158,7 +158,7 @@ const UserMenu = () => {
       await Promise.all(
         unreadNotifications.map((notification) =>
           axios.put(
-            `http://localhost:5000/api/notification/${notification._id}/read`,
+            `${apiUrl}/notification/${notification._id}/read`,
             {},
             {
               headers: {
@@ -231,9 +231,8 @@ const UserMenu = () => {
                 <div
                   key={notif._id}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`notification-item p-2 cursor-pointer hover:bg-gray-50 ${
-                    !notif.isRead ? "bg-light" : ""
-                  }`}
+                  className={`notification-item p-2 cursor-pointer hover:bg-gray-50 ${!notif.isRead ? "bg-light" : ""
+                    }`}
                   style={{ cursor: "pointer" }}
                 >
                   <div className="d-flex flex-column">

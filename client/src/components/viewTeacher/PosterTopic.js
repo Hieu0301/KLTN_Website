@@ -4,6 +4,8 @@ import { TablePagination } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { apiUrl } from "../../contexts/constants";
+
 function PosterTopic() {
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ function PosterTopic() {
       const token = localStorage.getItem("token");
       const promises = students.map((student) =>
         axios.get(
-          `http://localhost:5000/api/scores/get-scores/${student.studentId}`,
+          `${apiUrl}/scores/get-scores/${student.studentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -69,7 +71,7 @@ function PosterTopic() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:5000/api/posterAssignment/get-poster-assignments",
+        `${apiUrl}/posterAssignment/get-poster-assignments`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -98,7 +100,7 @@ function PosterTopic() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Có lỗi xảy ra khi tải danh sách nhóm được phân công"
+        "Có lỗi xảy ra khi tải danh sách nhóm được phân công"
       );
     } finally {
       setLoading(false);
@@ -110,7 +112,7 @@ function PosterTopic() {
       const token = localStorage.getItem("token");
       const promises = students.map((student) =>
         axios.get(
-          `http://localhost:5000/api/scores/get-scores/${student.studentId}`,
+          `${apiUrl}/scores/get-scores/${student.studentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -190,7 +192,7 @@ function PosterTopic() {
         const score = scores[student.studentId];
         if (score !== undefined) {
           return axios.post(
-            "http://localhost:5000/api/scores/input-scores-poster",
+            `${apiUrl}/scores/input-scores-poster`,
             {
               studentId: student.studentId,
               posterScore: parseFloat(score),
@@ -288,11 +290,10 @@ function PosterTopic() {
             <div className="assignment-header" style={{ marginTop: "-10px" }}>
               <div className="header-top">
                 <span
-                  className={`status-badge ${
-                    assignment.assignmentStatus === "Đã chấm điểm"
+                  className={`status-badge ${assignment.assignmentStatus === "Đã chấm điểm"
                       ? "completed"
                       : "pending"
-                  }`}
+                    }`}
                 >
                   {assignment.assignmentStatus}
                 </span>

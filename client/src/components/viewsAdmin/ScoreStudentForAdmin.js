@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import "../../css/ScoreStudentForAdmin.css";
+import { apiUrl } from "../../contexts/constants";
 function ScoreStudentForAdmin() {
   const [scores, setScores] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ function ScoreStudentForAdmin() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:5000/api/scores/get-all-scores",
+        `${apiUrl}/scores/get-all-scores`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,7 +69,7 @@ function ScoreStudentForAdmin() {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/scores/publish-all-scores",
+        `${apiUrl}/scores/publish-all-scores`,
         { studentId: studentIds },
         {
           headers: {
@@ -100,7 +101,7 @@ function ScoreStudentForAdmin() {
       setPublishLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:5000/api/scores/unpublish-all-scores",
+        `${apiUrl}/scores/unpublish-all-scores`,
         {},
         {
           headers: {
@@ -127,7 +128,7 @@ function ScoreStudentForAdmin() {
       const token = localStorage.getItem("token"); // hoặc cookie nếu bạn sử dụng cookie
 
       const response = await axios.get(
-        "http://localhost:5000/api/scores/export-scores",
+        `${apiUrl}/scores/export-scores`,
         {
           responseType: "blob", // Để xử lý file blob
           headers: {

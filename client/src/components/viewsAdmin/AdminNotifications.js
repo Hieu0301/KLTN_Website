@@ -8,6 +8,7 @@ import "../../css/AdminNotifications.css";
 import io from "socket.io-client";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
+import { apiUrl } from "../../contexts/constants";
 
 const AdminNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -24,7 +25,7 @@ const AdminNotifications = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5000", {
+    const newSocket = io(`${apiUrl}`, {
       withCredentials: true,
       auth: {
         token: localStorage.getItem("token"),
@@ -51,7 +52,7 @@ const AdminNotifications = () => {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/notification/all",
+        `${apiUrl}/notification/all`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -72,7 +73,7 @@ const AdminNotifications = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/notification",
+        `${apiUrl}/notification`,
         newNotification,
         {
           headers: {
@@ -116,7 +117,7 @@ const AdminNotifications = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/api/notification/${id}`,
+          `${apiUrl}/notification/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

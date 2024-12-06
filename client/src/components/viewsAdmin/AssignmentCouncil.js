@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Sử dụng hook useNavigate để chuyển trang
 import { TablePagination } from "@mui/material";
+import { apiUrl } from "../../contexts/constants";
 function AssignmentCouncil() {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +22,7 @@ function AssignmentCouncil() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:5000/api/reviewAssignment/get-all-teachers",
+        `${apiUrl}/reviewAssignment/get-all-teachers`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +40,7 @@ function AssignmentCouncil() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Có lỗi xảy ra khi tải danh sách giáo viên"
+        "Có lỗi xảy ra khi tải danh sách giáo viên"
       );
     } finally {
       setLoading(false);

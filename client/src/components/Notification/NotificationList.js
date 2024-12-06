@@ -3,7 +3,7 @@ import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import moment from "moment";
 import "moment/locale/vi";
-
+import { apiUrl } from "../../contexts/constants";
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
   const { authState } = useContext(AuthContext);
@@ -15,7 +15,7 @@ const NotificationList = () => {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/notification",
+        `${apiUrl}/notification`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,7 +33,7 @@ const NotificationList = () => {
   const markAsRead = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/notification/${id}/read`,
+        `${apiUrl}/notification/${id}/read`,
         {},
         {
           headers: {
@@ -56,9 +56,8 @@ const NotificationList = () => {
       {notifications.map((notification) => (
         <div
           key={notification._id}
-          className={`notification-item p-3 border-bottom ${
-            !notification.isRead ? "bg-light" : ""
-          }`}
+          className={`notification-item p-3 border-bottom ${!notification.isRead ? "bg-light" : ""
+            }`}
           onClick={() => markAsRead(notification._id)}
         >
           <div className="d-flex justify-content-between align-items-center">

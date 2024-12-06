@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import "../../css/ListGroupAssignmentReview.css";
 import { TablePagination } from "@mui/material";
-
+import { apiUrl } from "../../contexts/constants";
 function ListGroupAssignmentReview() {
   const { teacherId } = useParams();
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function ListGroupAssignmentReview() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/api/reviewAssignment/get-groups-for-review/${teacherId}`,
+        `${apiUrl}/reviewAssignment/get-groups-for-review/${teacherId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ function ListGroupAssignmentReview() {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
         const response = await axios.post(
-          "http://localhost:5000/api/reviewAssignment/assign-reviewer",
+          `${apiUrl}/reviewAssignment/assign-reviewer`,
           {
             teacherId,
             groupId,
@@ -99,7 +99,7 @@ function ListGroupAssignmentReview() {
       console.error("Error assigning reviewer:", err);
       toast.error(
         err.response?.data?.message ||
-          "Có lỗi xảy ra khi phân công giảng viên phản biện"
+        "Có lỗi xảy ra khi phân công giảng viên phản biện"
       );
     }
   };
@@ -131,7 +131,7 @@ function ListGroupAssignmentReview() {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
         const response = await axios.delete(
-          `http://localhost:5000/api/reviewAssignment/cancel-assignment/${group.assignmentId}`,
+          `${apiUrl}/reviewAssignment/cancel-assignment/${group.assignmentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -251,9 +251,8 @@ function ListGroupAssignmentReview() {
                 }}
               >
                 <button
-                  className={`assign-reviewer-btn ${
-                    group.hasReviewer ? "cancel" : ""
-                  }`}
+                  className={`assign-reviewer-btn ${group.hasReviewer ? "cancel" : ""
+                    }`}
                   onClick={() =>
                     group.hasReviewer
                       ? handleCancelAssignment(group.groupId)

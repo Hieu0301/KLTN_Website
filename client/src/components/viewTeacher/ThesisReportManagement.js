@@ -6,7 +6,7 @@ import axios from "axios";
 import EditFolderModal from "./ThesisReportManagement/EditFolderModal";
 import "../../css/ThesisReportManagement.css";
 import Swal from "sweetalert2";
-
+import { apiUrl } from "../../contexts/constants";
 const ThesisReportManagement = () => {
   const [folders, setFolders] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -50,7 +50,7 @@ const ThesisReportManagement = () => {
   const fetchFolders = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/reportManagements/folders",
+        `${apiUrl}/reportManagements/folders`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -61,7 +61,7 @@ const ThesisReportManagement = () => {
         response.data.folders.map(async (folder) => {
           try {
             const submissionsResponse = await axios.get(
-              `http://localhost:5000/api/reportManagements/folder-reports/${folder._id}`,
+              `${apiUrl}/reportManagements/folder-reports/${folder._id}`,
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -99,7 +99,7 @@ const ThesisReportManagement = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/reportManagements/create-folder",
+        `${apiUrl}/reportManagements/create-folder`,
         folderData,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -163,7 +163,7 @@ const ThesisReportManagement = () => {
         setLoading(true);
 
         const response = await axios.delete(
-          `http://localhost:5000/api/reportManagements/folder/${folderId}`,
+          `${apiUrl}/reportManagements/folder/${folderId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -222,7 +222,7 @@ const ThesisReportManagement = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/reportManagements/folder/${selectedFolder._id}`,
+        `${apiUrl}/reportManagements/folder/${selectedFolder._id}`,
         folderData,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

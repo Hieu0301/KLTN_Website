@@ -9,7 +9,7 @@ import "font-awesome/css/font-awesome.min.css";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CloseIcon from "@mui/icons-material/Close"; // Import thêm icon "X"
 import { useNavigate } from "react-router-dom";
-
+import { apiUrl } from "../../contexts/constants";
 const TopicStudent = () => {
   const [topics, setTopics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ const TopicStudent = () => {
     const fetchGroupId = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/studentGroups/get-group-id",
+          `${apiUrl}/studentGroups/get-group-id`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,7 +63,7 @@ const TopicStudent = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/topics/${groupId}/topics`,
+          `${apiUrl}/topics/${groupId}/topics`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -110,7 +110,7 @@ const TopicStudent = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `http://localhost:5000/api/topics/leave-topic`,
+            `${apiUrl}/topics/leave-topic`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

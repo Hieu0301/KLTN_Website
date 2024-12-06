@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Card, Modal, Spin, message } from "antd";
 import axios from "axios";
-
+import { apiUrl } from "../../contexts/constants";
 const TeacherManagement = () => {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const TeacherManagement = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/teachersManagement/teachers"
+        `${apiUrl}/teachersManagement/teachers`
       );
       setTeachers(response.data);
     } catch (error) {
@@ -29,7 +29,7 @@ const TeacherManagement = () => {
   const fetchTeacherDetails = async (teacherId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/teachersManagement/teachers/${teacherId}/details`
+        `${apiUrl}/teachersManagement/teachers/${teacherId}/details`
       );
       setTeacherDetails(response.data);
       setModalVisible(true);

@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ref, push, set, onValue, remove } from "firebase/database";
 import { database } from "../../firebase/ConfigFirebase";
 import { firebaseMessageService } from "../../services/firebaseMessageService";
+
+import { apiUrl } from "../../contexts/constants";
 function MessageTeacher() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -184,7 +186,7 @@ function MessageTeacher() {
 
       // Gọi API xóa từ MongoDB trước
       const response = await axios.delete(
-        `http://localhost:5000/api/messages/delete/${messageId}`,
+        `${apiUrl}/messages/delete/${messageId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -243,7 +245,7 @@ function MessageTeacher() {
     try {
       const token = getToken();
       const response = await axios.get(
-        "http://localhost:5000/api/teachers/profile-teacher",
+        `${apiUrl}/teachers/profile-teacher`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -327,7 +329,7 @@ function MessageTeacher() {
       const token = getToken();
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/messages/group/${groupInfo.id.trim()}`,
+          `${apiUrl}/messages/group/${groupInfo.id.trim()}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -339,22 +341,22 @@ function MessageTeacher() {
           const formattedMessages =
             messages.length > 0
               ? messages.map((msg) => ({
-                  id: msg._id,
-                  senderModel: msg.senderModel,
-                  text: msg.content,
-                  senderName:
-                    msg.senderModel === "profileTeacher"
-                      ? profile?.name || msg.sender?.name || "Giảng viên"
-                      : msg.sender?.name || "Sinh viên",
-                  time: new Date(msg.timestamp).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  }),
-                }))
+                id: msg._id,
+                senderModel: msg.senderModel,
+                text: msg.content,
+                senderName:
+                  msg.senderModel === "profileTeacher"
+                    ? profile?.name || msg.sender?.name || "Giảng viên"
+                    : msg.sender?.name || "Sinh viên",
+                time: new Date(msg.timestamp).toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }),
+              }))
               : []; // Trả về mảng rỗng nếu không có tin nhắn
 
           setMessages(formattedMessages);
@@ -384,7 +386,7 @@ function MessageTeacher() {
 
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/api/studentgroups/members/${groupInfo.id}`,
+        `${apiUrl}/studentgroups/members/${groupInfo.id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -422,7 +424,7 @@ function MessageTeacher() {
 
       // Gửi tin nhắn lên server
       const response = await axios.post(
-        "http://localhost:5000/api/messages/send-new",
+        `${apiUrl}/messages/send-new`,
         {
           content: message.trim(),
           groupId: groupInfo.id,
@@ -447,8 +449,8 @@ function MessageTeacher() {
       console.error("Error sending message:", err);
       setError(
         err.response?.data?.message ||
-          err.message ||
-          "Có lỗi xảy ra khi gửi tin nhắn"
+        err.message ||
+        "Có lỗi xảy ra khi gửi tin nhắn"
       );
     } finally {
       setLoading(false);
@@ -513,22 +515,20 @@ function MessageTeacher() {
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`message-wrapper ${
-              msg.senderModel === "profileTeacher"
-                ? "message-right"
-                : "message-left"
-            }`}
+            className={`message-wrapper ${msg.senderModel === "profileTeacher"
+              ? "message-right"
+              : "message-left"
+              }`}
             onClick={() =>
               setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)
             }
             style={{ position: "relative", cursor: "pointer" }}
           >
             <div
-              className={`message-bubble ${
-                msg.senderModel === "profileTeacher"
-                  ? "message-sent"
-                  : "message-received"
-              }`}
+              className={`message-bubble ${msg.senderModel === "profileTeacher"
+                ? "message-sent"
+                : "message-received"
+                }`}
             >
               <strong>{msg.senderName}</strong>
               <p className="mb-1">{msg.text}</p>

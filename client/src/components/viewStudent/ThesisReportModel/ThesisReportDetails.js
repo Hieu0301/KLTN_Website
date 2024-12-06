@@ -15,6 +15,8 @@ import ViewReportModal from "../ThesisReportModel/ViewReportModal";
 import EditReportModal from "../ThesisReportModel/EditReportModal";
 import Swal from "sweetalert2";
 
+import { apiUrl } from "../../../contexts/constants";
+
 const ThesisReportDetails = ({
   selectedFolder,
   onBack,
@@ -38,7 +40,7 @@ const ThesisReportDetails = ({
   const fetchFolderReports = async (folderId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/thesisReports/get-folder-reports/${folderId}`,
+        `${apiUrl}/thesisReports/get-folder-reports/${folderId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -64,7 +66,7 @@ const ThesisReportDetails = ({
   const handleSubmitReport = async (formData) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/thesisReports/submit-report/${selectedFolder._id}`,
+        `${apiUrl}/thesisReports/submit-report/${selectedFolder._id}`,
         formData,
         {
           headers: {
@@ -102,7 +104,7 @@ const ThesisReportDetails = ({
   const handleUpdateReport = async (formData) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/thesisReports/${selectedReport._id}`,
+        `${apiUrl}/thesisReports/${selectedReport._id}`,
         formData,
         {
           headers: {
@@ -131,8 +133,8 @@ const ThesisReportDetails = ({
           <p>Bạn có chắc chắn muốn xóa báo cáo sau?</p>
           <strong>Tên báo cáo:</strong> ${report.title}<br/>
           <strong>Ngày nộp:</strong> ${new Date(
-            report.submissionDate
-          ).toLocaleString()}
+        report.submissionDate
+      ).toLocaleString()}
         </div>
       `,
       icon: "warning",
@@ -152,7 +154,7 @@ const ThesisReportDetails = ({
     if (isConfirmed.isConfirmed) {
       try {
         await axios.delete(
-          `http://localhost:5000/api/thesisReports/${report._id}`,
+          `${apiUrl}/thesisReports/${report._id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -181,7 +183,7 @@ const ThesisReportDetails = ({
       try {
         const filename = fileUrl.split("/").pop();
         const response = await axios.get(
-          `http://localhost:5000/api/thesisReports/download/${filename}`,
+          `${apiUrl}/thesisReports/download/${filename}`,
           {
             responseType: "blob",
             headers: {
@@ -212,7 +214,7 @@ const ThesisReportDetails = ({
   const handleDownloadFileTeacher = async (reportId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/reportManagements/feedback-file/${reportId}`,
+        `${apiUrl}/reportManagements/feedback-file/${reportId}`,
         {
           responseType: "blob",
           headers: {
@@ -245,9 +247,8 @@ const ThesisReportDetails = ({
     return (
       <div>
         <span
-          className={`status-badge ${
-            report.status === "GV Đã xem" ? "reviewed" : "pending"
-          }`}
+          className={`status-badge ${report.status === "GV Đã xem" ? "reviewed" : "pending"
+            }`}
         >
           {report.status}
         </span>

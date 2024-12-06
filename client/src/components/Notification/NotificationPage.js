@@ -4,7 +4,7 @@ import moment from "moment";
 import "moment/locale/vi";
 import NotificationDetailModal from "../Notification/NotificationDetailModal";
 import "../../css/NotificationPage.css";
-
+import { apiUrl } from "../../contexts/constants";
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const [selectedNotification, setSelectedNotification] = useState(null);
@@ -17,7 +17,7 @@ const NotificationPage = () => {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/notification",
+        `${apiUrl}/notification`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -33,7 +33,7 @@ const NotificationPage = () => {
   const handleReadNotification = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/notification/${id}/read`,
+        `${apiUrl}/notification/${id}/read`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -58,9 +58,8 @@ const NotificationPage = () => {
           {notifications.map((notif) => (
             <div
               key={notif._id}
-              className={`notification-item p-3 mb-2 ${
-                !notif.isRead ? "bg-light" : ""
-              }`}
+              className={`notification-item p-3 mb-2 ${!notif.isRead ? "bg-light" : ""
+                }`}
               onClick={() => handleNotificationClick(notif)}
               style={{
                 cursor: "pointer",

@@ -5,6 +5,7 @@ import setAuthToken from "../../utils/setAuthToken"; // Đảm bảo bạn đã 
 import { AuthContext } from "../../contexts/AuthContext"; // Import AuthContext
 import "../../css/StudentInfo.css";
 import { Box, Typography } from "@mui/material";
+import { apiUrl } from "../../contexts/constants";
 const StudentInfo = () => {
   const { updateProfile } = useContext(AuthContext); // Lấy updateProfile từ context
   const [userData, setUserData] = useState({});
@@ -34,7 +35,7 @@ const StudentInfo = () => {
 
   const fetchProfileData = () => {
     axios
-      .get("http://localhost:5000/api/student/profile-student")
+      .get(`${apiUrl}/student/profile-student`)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -58,7 +59,7 @@ const StudentInfo = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/student/update", profile)
+      .post(`${apiUrl}/student/update`, profile)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -158,7 +159,7 @@ const StudentInfo = () => {
                   name="groupName"
                   value={profile.groupName}
                   readOnly // Làm trường này chỉ đọc
-                  //onChange={handleInputChange}
+                //onChange={handleInputChange}
                 />
               </Form.Group>
               <Form.Group>
@@ -168,7 +169,7 @@ const StudentInfo = () => {
                   name="groupStatus"
                   value={profile.groupStatus}
                   readOnly // Làm trường này chỉ đọc
-                  //onChange={handleInputChange}
+                //onChange={handleInputChange}
                 />
               </Form.Group>
               <Button variant="primary" type="submit">

@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/MessageStudent.css";
 import { firebaseMessageService } from "../../services/firebaseMessageService";
-
+import { apiUrl } from "../../contexts/constants";
 const MessageStudent = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ const MessageStudent = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:5000/api/student/profile-student",
+          `${apiUrl}/student/profile-student`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -182,7 +182,7 @@ const MessageStudent = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:5000/api/student/profile-student",
+          `${apiUrl}/student/profile-student`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -299,7 +299,7 @@ const MessageStudent = () => {
         setLoading(true);
         const token = getToken();
         const response = await axios.get(
-          `http://localhost:5000/api/messages/group/${groupInfo._id}`,
+          `${apiUrl}/messages/group/${groupInfo._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -355,7 +355,7 @@ const MessageStudent = () => {
 
       // 1. Gửi tin nhắn lên server
       const response = await axios.post(
-        "http://localhost:5000/api/messages/send-new",
+        `${apiUrl}/messages/send-new`,
         {
           receiverIds: [teacherInfo.id],
           content: message.trim(),
@@ -447,7 +447,7 @@ const MessageStudent = () => {
 
       // Gọi API xóa từ MongoDB trước
       const response = await axios.delete(
-        `http://localhost:5000/api/messages/delete/${messageId}`,
+        `${apiUrl}/messages/delete/${messageId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -504,9 +504,8 @@ const MessageStudent = () => {
           return (
             <div
               key={msg.id}
-              className={`message-wrapper ${
-                isOwnMessage ? "message-right" : "message-left"
-              }`}
+              className={`message-wrapper ${isOwnMessage ? "message-right" : "message-left"
+                }`}
               onClick={() => {
                 if (isOwnMessage) {
                   setSelectedMessage(
@@ -524,9 +523,8 @@ const MessageStudent = () => {
               }}
             >
               <div
-                className={`message-bubble ${
-                  isOwnMessage ? "message-sent" : "message-received"
-                }`}
+                className={`message-bubble ${isOwnMessage ? "message-sent" : "message-received"
+                  }`}
                 style={{
                   backgroundColor: isOwnMessage ? "#0084ff" : "#ffffff",
                   color: isOwnMessage ? "#ffffff" : "#000000",

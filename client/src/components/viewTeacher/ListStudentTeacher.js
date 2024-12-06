@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import "../../css/ListStudentGroupForTeacher.css";
 
+import { apiUrl } from "../../contexts/constants";
+
 const ListStudentTeacher = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +35,7 @@ const ListStudentTeacher = () => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/topics/teacher/students"
+          `${apiUrl}/topics/teacher/students`
         );
         if (response.data && Array.isArray(response.data.students)) {
           setStudents(response.data.students);
@@ -104,7 +106,7 @@ const ListStudentTeacher = () => {
       const token = localStorage.getItem("token"); // hoặc cookie nếu bạn sử dụng cookie
 
       const response = await axios.get(
-        "http://localhost:5000/api/scores/export-scores",
+        `${apiUrl}/scores/export-scores`,
         {
           responseType: "blob", // Để xử lý file blob
           headers: {

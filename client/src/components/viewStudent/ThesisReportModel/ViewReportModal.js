@@ -3,7 +3,7 @@ import { Modal, Button, Table } from "react-bootstrap";
 import { FileText, Download } from "lucide-react";
 import "../../../css/ViewReportModal.css";
 import { toast } from "react-toastify";
-
+import { apiUrl } from "../../../contexts/constants";
 const ViewReportModal = ({
   show,
   onHide,

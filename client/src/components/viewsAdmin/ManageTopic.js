@@ -10,7 +10,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-
+import { apiUrl } from "../../contexts/constants";
 const ManageTopic = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [topics, setTopics] = useState([]);
@@ -41,7 +41,7 @@ const ManageTopic = () => {
       setLoading(true);
       setError(null);
       const response = await axios.get(
-        "http://localhost:5000/api/topics/get-all-topics",
+        `${apiUrl}/topics/get-all-topics`,
         {
           params: { nameTopic: searchTerm },
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -113,7 +113,7 @@ const ManageTopic = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/topics/approve/${id}`,
+          `${apiUrl}/topics/approve/${id}`,
           { status: newStatus },
           {
             headers: {
@@ -176,7 +176,7 @@ const ManageTopic = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/topics/approve/${id}`,
+          `${apiUrl}/topics/approve/${id}`,
           { status: "Từ chối" },
           {
             headers: {

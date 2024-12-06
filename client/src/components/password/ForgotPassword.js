@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../css/ForgotPassword.css";
 import OTPInput from "./OTPInput";
 import { Link } from "react-router-dom";
+import { apiUrl } from "../../contexts/constants";
 const ForgotPassword = () => {
   const [id, setId] = useState("");
   const [otp, setOtp] = useState("");
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/forgot-password",
+        `${apiUrl}/auth/forgot-password`,
         { id }
       );
       if (response.data.success) {
@@ -41,7 +42,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+        `${apiUrl}/auth/verify-otp`,
         { id, otp }
       );
       if (response.data.success) {
@@ -67,7 +68,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/reset-password",
+        `${apiUrl}/auth/reset-password`,
         { id, otp, newPassword }
       );
       if (response.data.success) {

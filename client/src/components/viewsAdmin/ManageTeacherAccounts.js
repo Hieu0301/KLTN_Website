@@ -30,7 +30,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx"; // import file excel
-
+import { apiUrl } from "../../contexts/constants";
 const ManageTeacherAccounts = () => {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
@@ -90,7 +90,7 @@ const ManageTeacherAccounts = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/users/list-teachers"
+        `${apiUrl}/users/list-teachers`
       ); // Gọi API lấy danh sách user
       setUsers(response.data.users); // Lưu danh sách user vào state
     } catch (error) {
@@ -108,7 +108,7 @@ const ManageTeacherAccounts = () => {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/users/delete-teacher/${userId}`
+        `${apiUrl}/users/delete-teacher/${userId}`
       );
 
       toast.success(`Tài khoản giảng viên "${user.username}" đã bị xóa!`, {
@@ -154,7 +154,7 @@ const ManageTeacherAccounts = () => {
     if (!isConfirmed) return; // Nếu không xác nhận, thoát khỏi hàm
 
     try {
-      await axios.put(`http://localhost:5000/api/users/${editUser._id}`, {
+      await axios.put(`${apiUrl}/users/${editUser._id}`, {
         username: editUser.username,
         password: editUser.password,
       }); // Gọi API cập nhật user
@@ -223,7 +223,7 @@ const ManageTeacherAccounts = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${apiUrl}/auth/register`,
         {
           username: newUser.username,
           password: newUser.password,
@@ -393,7 +393,7 @@ const ManageTeacherAccounts = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/users/bulk-create-teachers",
+          `${apiUrl}/users/bulk-create-teachers`,
           { users: processedData },
           {
             headers: {
@@ -410,11 +410,10 @@ const ManageTeacherAccounts = () => {
           response.data.duplicateUsernames &&
           response.data.duplicateUsernames.length > 0
         ) {
-          message += ` ${
-            response.data.duplicateUsernames.length
-          } tài khoản bị trùng username: ${response.data.duplicateUsernames.join(
-            ", "
-          )}`;
+          message += ` ${response.data.duplicateUsernames.length
+            } tài khoản bị trùng username: ${response.data.duplicateUsernames.join(
+              ", "
+            )}`;
           icon = "warning";
         }
 

@@ -152,8 +152,8 @@ function TopicReview() {
 
       const responses = await Promise.all(promises);
 
-      // Trả về true nếu ít nhất một sinh viên trong nhóm đã có điểm
-      return responses.some(
+      // Trả về true chỉ khi TẤT CẢ sinh viên đều có điểm
+      return responses.every(
         (response) =>
           response.data.success &&
           response.data.scores &&

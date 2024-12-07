@@ -271,7 +271,7 @@ function InputScore() {
         </Box>
         <Box mt={4}>
           <Typography variant="h5" gutterBottom>
-            Nhập điểm
+            Nhập điểm hướng dẫn
           </Typography>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField

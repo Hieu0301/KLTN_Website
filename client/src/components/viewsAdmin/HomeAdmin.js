@@ -60,7 +60,7 @@ const HomeAdmin = () => {
     const fetchStudentStatistics = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/adminStatistics/student-statistics",
+          `${apiUrl}/adminStatistics/student-statistics`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -102,7 +102,7 @@ const HomeAdmin = () => {
     const fetchTeacherStatistics = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/adminStatistics/teacher-statistics",
+          `${apiUrl}/adminStatistics/teacher-statistics`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -141,7 +141,7 @@ const HomeAdmin = () => {
     const fetchQuickStatistics = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/adminStatistics/quick-statistics",
+          `${apiUrl}/adminStatistics/quick-statistics`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -176,7 +176,7 @@ const HomeAdmin = () => {
     const fetchReportStatistics = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/adminStatistics/report-statistics",
+          `${apiUrl}/adminStatistics/report-statistics`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -251,7 +251,7 @@ const HomeAdmin = () => {
     const fetchActivities = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/adminStatistics/recent",
+          `${apiUrl}/adminStatistics/recent`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

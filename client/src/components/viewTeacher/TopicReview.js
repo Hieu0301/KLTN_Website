@@ -65,7 +65,7 @@ function TopicReview() {
       setSavedScores(newSavedScores);
     } catch (error) {
       console.error("Error fetching existing scores:", error);
-      toast.error("Lỗi khi tải điểm từ database");
+
     }
   };
 

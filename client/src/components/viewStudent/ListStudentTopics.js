@@ -166,19 +166,19 @@ export const ListStudentTopics = () => {
   };
 
   const handleRegister = async (topicId, topicName) => {
-    if (!isGroupLeader) {
+    if (!groupId) {
       Swal.fire(
         "Không thể đăng ký",
-        "Chỉ nhóm trưởng mới có quyền đăng ký đề tài.",
+        "Bạn cần tham gia nhóm trước khi đăng ký đề tài.",
         "warning"
       );
       return;
     }
 
-    if (!groupId) {
+    if (!isGroupLeader) {
       Swal.fire(
         "Không thể đăng ký",
-        "Bạn cần tham gia nhóm trước khi đăng ký đề tài.",
+        "Chỉ nhóm trưởng mới có quyền đăng ký đề tài.",
         "warning"
       );
       return;

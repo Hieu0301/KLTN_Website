@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { verifyToken, checkRole } = require("../middleware/auth");
-
 const Score = require("../models/ScoreStudent.js"); // Import model profile
 const Topic = require("../models/Topic");
 const Student = require("../models/ProfileStudent"); // Import model profileStudent
@@ -15,10 +14,26 @@ const Group = require("../models/StudentGroup");
 const ReviewAssignment = require("../models/ReviewAssignment");
 const CouncilAssignment = require("../models/CouncilAssignment.js");
 const PosterAssignment = require("../models/PosterAssignment.js");
+const AdminFeature = require("../models/AdminFeature");
 
 // Chấm điểm hướng dẫn
 router.post("/input-scores", verifyToken, async (req, res) => {
   try {
+
+    // Kiểm tra khóa tính năng
+    const inputScoreConfig = await AdminFeature.findOne({
+      feature: "ChamHuongDan",
+    });
+
+    if (inputScoreConfig && !inputScoreConfig.isEnabled) {
+      return res.status(403).json({
+        success: false,
+        message:
+          inputScoreConfig.disabledReason ||
+          "Chức năng nhập điểm hướng dẫn hiện đang bị khóa",
+      });
+    }
+
     const { studentId, instructorScore } = req.body;
 
     // Kiểm tra nếu các trường bắt buộc có giá trị
@@ -85,6 +100,21 @@ router.post("/input-scores", verifyToken, async (req, res) => {
 // Chấm điểm phản biện
 router.post("/input-scores-review", verifyToken, async (req, res) => {
   try {
+
+    // Kiểm tra khóa tính năng
+    const inputScoreConfig = await AdminFeature.findOne({
+      feature: "ChamPhanBien",
+    });
+
+    if (inputScoreConfig && !inputScoreConfig.isEnabled) {
+      return res.status(403).json({
+        success: false,
+        message:
+          inputScoreConfig.disabledReason ||
+          "Chức năng nhập điểm phản biện hiện đang bị khóa",
+      });
+    }
+
     const { studentId, reviewerScore } = req.body;
 
     // Kiểm tra nếu các trường bắt buộc có giá trị
@@ -151,6 +181,21 @@ router.post("/input-scores-review", verifyToken, async (req, res) => {
 // Api nhập điểm hồi đồng
 router.post("/input-scores-council", verifyToken, async (req, res) => {
   try {
+
+    // Kiểm tra khóa tính năng
+    const inputScoreConfig = await AdminFeature.findOne({
+      feature: "ChamHoiDong",
+    });
+
+    if (inputScoreConfig && !inputScoreConfig.isEnabled) {
+      return res.status(403).json({
+        success: false,
+        message:
+          inputScoreConfig.disabledReason ||
+          "Chức năng nhập điểm hội đồng hiện đang bị khóa",
+      });
+    }
+
     const { studentId, councilScore } = req.body;
 
     // Kiểm tra các trường bắt buộc
@@ -217,6 +262,21 @@ router.post("/input-scores-council", verifyToken, async (req, res) => {
 // API nhập điểm poster
 router.post("/input-scores-poster", verifyToken, async (req, res) => {
   try {
+
+    // Kiểm tra khóa tính năng
+    const inputScoreConfig = await AdminFeature.findOne({
+      feature: "ChamPoster",
+    });
+
+    if (inputScoreConfig && !inputScoreConfig.isEnabled) {
+      return res.status(403).json({
+        success: false,
+        message:
+          inputScoreConfig.disabledReason ||
+          "Chức năng nhập điểm Poster hiện đang bị khóa",
+      });
+    }
+
     const { studentId, posterScore } = req.body;
 
     // Kiểm tra các trường bắt buộc
@@ -708,9 +768,8 @@ router.get("/export-excel-score-for-teacher", verifyToken, async (req, res) => {
     xlsx.utils.book_append_sheet(workbook, worksheet, "Bảng điểm GVHD");
 
     // Generate filename with current date and teacher name
-    const fileName = `Bang_diem_GVHD_${teacherProfile.name}_${
-      new Date().toISOString().split("T")[0]
-    }.xlsx`;
+    const fileName = `Bang_diem_GVHD_${teacherProfile.name}_${new Date().toISOString().split("T")[0]
+      }.xlsx`;
 
     // Write to buffer
     const buffer = xlsx.write(workbook, { bookType: "xlsx", type: "buffer" });
@@ -1089,17 +1148,17 @@ router.get("/get-all-scores", verifyToken, async (req, res) => {
           },
           topic: topic
             ? {
-                id: topic._id,
-                nameTopic: topic.nameTopic || "",
-                descriptionTopic: topic.descriptionTopic || "",
-              }
+              id: topic._id,
+              nameTopic: topic.nameTopic || "",
+              descriptionTopic: topic.descriptionTopic || "",
+            }
             : null,
           studentGroup: studentGroup
             ? {
-                id: studentGroup._id,
-                groupId: studentGroup.groupId || "",
-                groupName: studentGroup.groupName || "",
-              }
+              id: studentGroup._id,
+              groupId: studentGroup.groupId || "",
+              groupName: studentGroup.groupName || "",
+            }
             : null,
           scores: {
             instructor: Number(score.instructorScore.toFixed(1)) || 0,
@@ -1119,10 +1178,10 @@ router.get("/get-all-scores", verifyToken, async (req, res) => {
           gradingInfo: {
             gradedBy: score.gradedBy
               ? {
-                  id: score.gradedBy._id,
-                  name: score.gradedBy.name || "",
-                  email: score.gradedBy.email || "",
-                }
+                id: score.gradedBy._id,
+                name: score.gradedBy.name || "",
+                email: score.gradedBy.email || "",
+              }
               : null,
             gradedAt: score.gradedAt || new Date(),
           },

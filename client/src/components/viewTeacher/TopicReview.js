@@ -276,8 +276,21 @@ function TopicReview() {
 
       // Fetch lại điểm và trạng thái
       await fetchAssignedGroups();
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Có lỗi xảy ra khi lưu điểm");
+    } catch (error) {
+
+      // Xử lý trường hợp chức năng bị khóa
+      if (error.response && error.response.status === 403) {
+        await Swal.fire({
+          title: "Chức Năng Bị Khóa",
+          text:
+            error.response.data.message ||
+            "Chức năng nhập điểm phản biện hiện đang bị khóa",
+          icon: "warning",
+          confirmButtonText: "Đóng",
+        });
+      } else {
+        toast.error(error.response?.data?.message || "Có lỗi xảy ra khi lưu điểm");
+      }
     } finally {
       setSubmitting(false);
     }

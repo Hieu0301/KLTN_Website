@@ -1,19 +1,20 @@
+
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60vh; /* Thay đổi từ min-height: 100vh thành height: 80vh */
   width: 100%;
-  max-width: 600px; /* Giới hạn chiều rộng để tránh tràn */
+  max-width: 500px; /* Giới hạn chiều rộng để tránh tràn */
   border-radius: 10px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
-  margin: 10vh auto; /* Thêm margin trên và dưới */
+  margin: 5vh auto; /* Thêm margin trên và dưới */
 }
 
 .login-form {
   background: white;
-  padding: 40px;
+  padding: 35px;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;

@@ -5,6 +5,8 @@ import {
   FaUserGraduate,
   FaFileAlt,
   FaBell,
+  FaChevronRight,
+  FaChevronLeft,
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/HomeAdmin.css";
@@ -247,18 +249,17 @@ const StatisticsTeacher = () => {
   //HOẠT ĐỘNG GẦN ĐÂY
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const activitiesPerPage = 5;
 
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await axios.get(
-          `${apiUrl}/adminStatistics/recent`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await axios.get(`${apiUrl}/adminStatistics/recent`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         if (response.data.success) {
           setActivities(response.data.activities);
@@ -271,10 +272,69 @@ const StatisticsTeacher = () => {
     };
 
     fetchActivities();
-    // Cập nhật mỗi 30 giây
-    const interval = setInterval(fetchActivities, 30000);
+    // Cập nhật mỗi 10 giây
+    const interval = setInterval(fetchActivities, 10000);
     return () => clearInterval(interval);
   }, []);
+
+  // Tính toán phân trang
+  const indexOfLastActivity = currentPage * activitiesPerPage;
+  const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+  const currentActivities = activities.slice(
+    indexOfFirstActivity,
+    indexOfLastActivity
+  );
+
+  // Chuyển trang
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Render phân trang
+  const renderPagination = () => {
+    const pageNumbers = [];
+    for (
+      let i = 1;
+      i <= Math.ceil(activities.length / activitiesPerPage);
+      i++
+    ) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <nav>
+        <ul className="pagination justify-content-center mt-3">
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+          >
+            <span className="page-link">
+              <FaChevronLeft />
+            </span>
+          </li>
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <span onClick={() => paginate(number)} className="page-link">
+                {number}
+              </span>
+            </li>
+          ))}
+          <li
+            className={`page-item ${currentPage === pageNumbers.length ? "disabled" : ""
+              }`}
+            onClick={() =>
+              currentPage < pageNumbers.length && paginate(currentPage + 1)
+            }
+          >
+            <span className="page-link">
+              <FaChevronRight />
+            </span>
+          </li>
+        </ul>
+      </nav>
+    );
+  };
 
   //thời gian của hoạt động
   const formatTime = (date) => {
@@ -369,6 +429,7 @@ const StatisticsTeacher = () => {
           </div>
         ))}
       </div>
+
       {/* HOẠT ĐỘNG GẦN ĐÂY */}
       <div className="row g-4">
         <div className="col-12 col-lg-7">
@@ -389,31 +450,36 @@ const StatisticsTeacher = () => {
               ) : activities.length === 0 ? (
                 <p className="text-center text-muted">Chưa có hoạt động nào</p>
               ) : (
-                <div className="activity-list">
-                  {activities.map((activity) => (
-                    <div
-                      key={activity._id}
-                      className="activity-item d-flex align-items-center mb-3"
-                    >
-                      <div className="activity-dot"></div>
-                      <div className="ms-3 w-100">
-                        <p className="mb-0">{activity.description}</p>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <small className="text-muted">
-                            {formatTime(activity.createdAt)}
-                          </small>
-                          <span
-                            className={`badge bg-${getActivityBadgeColor(
-                              activity.type
-                            )}`}
-                          >
-                            {getActivityTypeName(activity.type)}
-                          </span>
+                <>
+                  <div className="activity-list">
+                    {currentActivities.map((activity) => (
+                      <div
+                        key={activity._id}
+                        className="activity-item d-flex align-items-center mb-3"
+                      >
+                        <div className="activity-dot"></div>
+                        <div className="ms-3 w-100">
+                          <p className="mb-0">{activity.description}</p>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <small className="text-muted">
+                              {formatTime(activity.createdAt)}
+                            </small>
+                            <span
+                              className={`badge bg-${getActivityBadgeColor(
+                                activity.type
+                              )}`}
+                            >
+                              {getActivityTypeName(activity.type)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+
+                  {/* Thêm phân trang */}
+                  {activities.length > activitiesPerPage && renderPagination()}
+                </>
               )}
             </div>
           </div>

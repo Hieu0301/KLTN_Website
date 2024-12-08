@@ -19,6 +19,34 @@ const FeatureManagement = () => {
       isEnabled: true,
       disabledReason: "",
     },
+    {
+      feature: "ChamHuongDan",
+      name: "Chấm Điểm Hướng Dẫn (Giảng Viên)",
+      description: "Cho phép giảng viên chấm điểm hướng dẫn của sinh viên",
+      isEnabled: true,
+      disabledReason: "",
+    },
+    {
+      feature: "ChamPhanBien",
+      name: "Chấm Điểm Phản Biện (Giảng Viên)",
+      description: "Cho phép giảng viên chấm điểm phản biện của sinh viên",
+      isEnabled: true,
+      disabledReason: "",
+    },
+    {
+      feature: "ChamHoiDong",
+      name: "Chấm Điểm Hội Đồng (Giảng Viên)",
+      description: "Cho phép giảng viên chấm điểm hội đồng của sinh viên",
+      isEnabled: true,
+      disabledReason: "",
+    },
+    {
+      feature: "ChamPoster",
+      name: "Chấm Điểm Poster (Giảng Viên)",
+      description: "Cho phép giảng viên chấm điểm Poster của sinh viên",
+      isEnabled: true,
+      disabledReason: "",
+    },
   ]);
 
   const [notificationMessage, setNotificationMessage] = useState("");

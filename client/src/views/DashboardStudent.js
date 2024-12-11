@@ -93,7 +93,11 @@ const DashboardStudent = () => {
         },
       ],
     },
-    { text: "Tiêu chí Đánh giá của học kỳ", icon: <GradeIcon /> },
+    {
+      text: "Hội đồng phản biện",
+      icon: <GradeIcon />,
+      onClick: () => navigate("/dashboardStudent/review-teacher"),
+    },
     {
       text: "Bảng điểm",
       icon: <ScoreIcon />,

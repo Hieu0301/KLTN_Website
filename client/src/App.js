@@ -48,6 +48,7 @@ import ViewScore from "./components/viewTeacher/ViewScore";
 import StatisticsTeacher from "./components/viewTeacher/StatisticsTeacher";
 import FeatureManagement from "./components/viewsAdmin/FeatureManagement";
 import TeacherManagement from "./components/viewsAdmin/TeacherManagement";
+import ViewTeacherReview from "./components/viewStudent/ViewTeacherReview"
 
 function App() {
   return (
@@ -142,6 +143,7 @@ function App() {
               <Route path="submit-report" element={<ThesisReport />} />{" "}
               <Route path="score-student" element={<ScoreStudent />} />{" "}
               <Route path="messageStudent" element={<MessageStudent />} />
+              <Route path="review-teacher" element={<ViewTeacherReview />} />{" "}
               <Route
                 path="notification-page-student"
                 element={<NotificationPage />}

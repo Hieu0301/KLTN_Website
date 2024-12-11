@@ -50,7 +50,6 @@ router.get("/get-all-teachers", verifyToken, async (req, res) => {
 });
 
 // lấy danh sách để phân công giảng viên chấm phản biện
-
 router.get(
   "/get-groups-for-review/:teacherId",
   verifyToken,
@@ -252,6 +251,8 @@ router.post("/assign-reviewer", verifyToken, async (req, res) => {
     });
   }
 });
+
+
 
 //get danh sách phân công cho giảng viên
 router.get("/get-assigned-groups", verifyToken, async (req, res) => {
@@ -485,5 +486,71 @@ router.delete(
     }
   }
 );
+
+router.get("/get-group-teacher-reviewers", verifyToken, async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    // Tìm thông tin sinh viên
+    const studentProfile = await ProfileStudent.findOne({ user: userId });
+    if (!studentProfile) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy thông tin sinh viên",
+      });
+    }
+
+    // Tìm nhóm sinh viên
+    const studentGroup = await StudentGroup.findOne({
+      "profileStudents.student": studentProfile._id,
+    });
+    if (!studentGroup) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy nhóm của sinh viên",
+      });
+    }
+
+    // Tìm tất cả các thông tin phân công cho nhóm này
+    const assignments = await ReviewAssignment.find({
+      studentGroup: studentGroup._id,
+    }).populate({
+      path: "reviewerTeacher",
+      select: "name email teacherId",
+    });
+
+    if (!assignments || assignments.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy thông tin phân công chấm phản biện",
+      });
+    }
+
+    // Chuẩn bị thông tin giảng viên từ tất cả các phân công
+    const reviewers = assignments.flatMap(assignment =>
+      assignment.reviewerTeacher.map((teacher) => ({
+        name: teacher.name,
+        email: teacher.email,
+        teacherId: teacher.teacherId,
+      }))
+    );
+
+    return res.json({
+      success: true,
+      message: "Lấy thông tin giảng viên chấm phản biện thành công",
+      reviewers: reviewers,
+      assignmentStatus: assignments[0].status, // Lấy trạng thái từ bản ghi đầu tiên
+      assignedDate: assignments[0].assignedDate,
+    });
+  } catch (error) {
+    console.error("Error in get-group-reviewers:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi server khi lấy thông tin giảng viên chấm phản biện",
+      error: error.message,
+    });
+  }
+});
+
 
 module.exports = router;

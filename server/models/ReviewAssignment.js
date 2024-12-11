@@ -3,22 +3,22 @@ const Schema = mongoose.Schema;
 
 const ReviewAssignmentSchema = new Schema({
   // Giảng viên được phân công chấm phản biện
-  reviewerTeacher: {
+  reviewerTeacher: [{
     type: Schema.Types.ObjectId,
     ref: "profileTeacher",
     required: true,
-  },
-  CouncilTeacher: {
-    type: Schema.Types.ObjectId,
-    ref: "profileTeacher",
-    required: false,
-  },
+  }],
+  // CouncilTeacher: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "profileTeacher",
+  //   required: false,
+  // },
 
-  posterTeacher: {
-    type: Schema.Types.ObjectId,
-    ref: "profileTeacher",
-    required: false,
-  },
+  // posterTeacher: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "profileTeacher",
+  //   required: false,
+  // },
 
   // Nhóm sinh viên được chấm phản biện
   studentGroup: {

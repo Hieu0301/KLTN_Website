@@ -103,7 +103,7 @@ const ListStudentGroupForTeacher = () => {
             left: "10px",
             top: "50%",
             transform: "translateY(-50%)",
-            color: "#ccc",
+            color: "#f9f9f9",
           }}
         />
         <input
@@ -217,7 +217,7 @@ const ListStudentGroupForTeacher = () => {
                           style={{
                             flex: "1 1 calc(50% - 0.5rem)",
                             minWidth: "250px",
-                            backgroundColor: "#b0b0b0",
+                            backgroundColor: "#d1d1d1",
                             padding: "1rem",
                             borderRadius: "0.5rem",
                           }}

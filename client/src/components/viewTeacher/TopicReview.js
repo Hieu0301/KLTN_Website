@@ -157,7 +157,7 @@ function TopicReview() {
         (response) =>
           response.data.success &&
           response.data.scores &&
-          response.data.scores.length > 0
+          response.data.scores.length > 0 && response.data.scores[0].reviewerScore !== undefined
       );
     } catch (error) {
       console.error("Error checking group scores:", error);

@@ -4,3 +4,9 @@ export const apiUrl =
     : "https://iuh-website-dkkl.onrender.com/api"; // URL khi deploy
 
 export const LOCAL_STORAGE_TOKEN_NAME = "token";
+
+
+export const socketUrl =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:5000"
+    : "https://iuh-website-dkkl.onrender.com"; // URL khi deploy

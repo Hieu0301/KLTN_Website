@@ -82,7 +82,7 @@ router.get(
         return map;
       }, {});
 
-      // Lấy tất cả các đề tài và nhóm
+      // Lấy tất cả các đề tài và nhóm trừ nhóm của giảng viên đã chọn
       const availableTopics = await Topic.find({
         teacher: { $ne: teacherProfile._id },
         Groups: {

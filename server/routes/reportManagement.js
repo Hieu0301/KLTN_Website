@@ -196,9 +196,9 @@ router.get(
           note: report.teacherNote,
           file: report.teacherFileName
             ? {
-                name: report.teacherFileName,
-                url: report.teacherFileUrl,
-              }
+              name: report.teacherFileName,
+              url: report.teacherFileUrl,
+            }
             : null,
         },
         submissionDate: report.submissionDate,
@@ -355,11 +355,11 @@ router.get("/folders", verifyToken, async (req, res) => {
             hasSubmitted: !!groupReport,
             submission: groupReport
               ? {
-                  submissionDate: groupReport.submissionDate,
-                  status: groupReport.status,
-                  isLate: groupReport.isLate,
-                  fileName: groupReport.fileName,
-                }
+                submissionDate: groupReport.submissionDate,
+                status: groupReport.status,
+                isLate: groupReport.isLate,
+                fileName: groupReport.fileName,
+              }
               : null,
           };
         })
@@ -793,7 +793,7 @@ const feedbackStorage = multer.diskStorage({
 
 const uploadFeedback = multer({
   storage: feedbackStorage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
 });
 
 // Thêm phản hồi cho báo cáo
@@ -844,9 +844,9 @@ router.post(
           note: report.teacherNote,
           file: report.teacherFileName
             ? {
-                name: report.teacherFileName,
-                url: report.teacherFileUrl,
-              }
+              name: report.teacherFileName,
+              url: report.teacherFileUrl,
+            }
             : null,
         },
       });

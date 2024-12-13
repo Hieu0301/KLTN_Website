@@ -100,34 +100,34 @@ const ListStudentTeacher = () => {
     });
   };
 
-  const handleExportExcel = async () => {
-    try {
-      // Lấy token từ localStorage hoặc nơi bạn lưu trữ
-      const token = localStorage.getItem("token"); // hoặc cookie nếu bạn sử dụng cookie
+  // const handleExportExcel = async () => {
+  //   try {
+  //     // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+  //     const token = localStorage.getItem("token"); // hoặc cookie nếu bạn sử dụng cookie
 
-      const response = await axios.get(
-        `${apiUrl}/scores/export-scores`,
-        {
-          responseType: "blob", // Để xử lý file blob
-          headers: {
-            Authorization: `Bearer ${token}`, // Thêm token vào header nếu cần
-          },
-        }
-      );
+  //     const response = await axios.get(
+  //       `${apiUrl}/scores/export-scores`,
+  //       {
+  //         responseType: "blob", // Để xử lý file blob
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, // Thêm token vào header nếu cần
+  //         },
+  //       }
+  //     );
 
-      // Tạo URL từ blob và tải về
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "Bang_diem_sinh_vien.xlsx"); // Tên file tải về
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); // Xóa link sau khi tải xong
-    } catch (error) {
-      console.error("Lỗi khi xuất file Excel:", error);
-      alert("Có lỗi xảy ra khi xuất file Excel."); // Thông báo cho người dùng
-    }
-  };
+  //     // Tạo URL từ blob và tải về
+  //     const url = window.URL.createObjectURL(new Blob([response.data]));
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.setAttribute("download", "Bang_diem_sinh_vien.xlsx"); // Tên file tải về
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link); // Xóa link sau khi tải xong
+  //   } catch (error) {
+  //     console.error("Lỗi khi xuất file Excel:", error);
+  //     alert("Có lỗi xảy ra khi xuất file Excel."); // Thông báo cho người dùng
+  //   }
+  // };
 
   if (loading) return <p className="text-center py-4">Đang tải dữ liệu...</p>;
   if (error)
@@ -210,14 +210,14 @@ const ListStudentTeacher = () => {
       </TableContainer>
 
       {/* Nút xuất file Excel nằm bên dưới bảng */}
-      <Button
+      {/* <Button
         variant="contained"
         color="secondary"
         onClick={handleExportExcel}
         sx={{ ml: 2, mt: 2 }}
       >
         Xuất file Excel
-      </Button>
+      </Button> */}
 
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}

@@ -169,7 +169,7 @@ router.get(
               totalScore: groupTotalScore,
               averageScore: groupAverageScore,
               topic: assignment.topic,
-              teacherId: assignment.topic.teacher.teacherId, // Sử dụng teacherId thay vì _id
+              teacherId: assignment.topic.teacher.teacherId,
               teacherName: assignment.topic.teacher.name,
             };
           } catch (error) {

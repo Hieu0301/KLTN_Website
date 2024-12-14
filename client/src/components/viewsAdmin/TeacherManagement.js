@@ -79,11 +79,11 @@ const TeacherManagement = () => {
   ];
 
   const topicColumns = [
-    {
-      title: "Mã đề tài",
-      dataIndex: "topicId",
-      key: "topicId",
-    },
+    // {
+    //   title: "Mã đề tài",
+    //   dataIndex: "topicId",
+    //   key: "topicId",
+    // },
     {
       title: "Tên đề tài",
       dataIndex: "nameTopic",
